@@ -1,0 +1,118 @@
+<html>
+
+<head>
+  <title>Mission 1</title>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <main id="app"></main>
+  <script>
+    // data
+    const courses = [
+      {
+        text: 'prgrms JS Study',
+        isCompleted: true
+      },
+      {
+        text: 'nomad coder Zoom clone coding',
+        isCompleted: false
+      }
+    ];
+    const articles = [
+      {
+        text: 'You Don\'t Know JS Yet',
+        isCompleted: true
+      },
+      {
+        text: 'Refactoring',
+        isCompleted: false
+      }
+    ];
+    const projects = [
+      {
+        text: 'DASH',
+        isCompleted: false
+      },
+      {
+        text: 'BarCode',
+        isCompleted: false
+      }
+    ];
+
+    // component
+    function TodoList({ data, id }) {
+        // validation
+        if (!new.target) {
+          throw new Error(`new 키워드로 함수를 실행하지 않았습니다.`);
+        }
+        validateData(data);
+        validateId(id);
+
+        // set component attributes
+        this.data = data;
+        this.id = id;
+        // set html elements
+        this.root = document.createElement('ul');
+        this.root.id = id;
+        document.getElementById('app').appendChild(this.root);
+
+        // methods
+        this.render = function () {
+            this.root.innerHTML =  this.data.map(({ text, isCompleted }) => {
+                return isCompleted ? `<li><s>${text}</s></li>` : `<li>${text}</li>`;
+            }).join('');
+        }
+        this.setState = function (nextData) {
+            validateData(nextData);
+            this.data = nextData;
+            this.render();
+        }
+
+        // validation methods
+        function validateData (data) {
+            if (data === null || data === undefined) {
+                throw new Error(`data가 ${data}입니다.`);
+            }
+            if (!Array.isArray(data)) {
+                throw new Error(`data가 array 형태가 아닙니다.`);
+            }
+        }
+        function validateId (id) {
+            if (id === null || id === undefined) {
+                throw new Error(`id가 ${id}입니다.`);
+            }
+            if (typeof(id) !== 'string') {
+                throw new Error(`id가 string이 아닙니다.`);
+            }
+        }
+
+        this.render();
+    }
+
+    // execution
+    const coursesTodo = new TodoList({
+        data: courses,
+        id: 'courses-todo'
+    });
+    const articlesTodo = new TodoList({
+        data: articles,
+        id: 'articles-todo'
+    });
+    const projectsTodo = new TodoList({
+        data: projects,
+        id: 'projects-todo'
+    });
+
+    setTimeout(() => {
+      coursesTodo.setState([
+        ...courses,
+        {
+          text: '보너스 구현사항 - setState', 
+          isCompleted: true
+        }
+      ]);
+    }, 1000);
+  </script>
+</body>
+</html>
