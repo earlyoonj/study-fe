@@ -6,7 +6,8 @@
 <body>
     <div id="todo-list"></div>
     <script>
-        const data = [
+        // data
+        const fejsData = [
             {
                 text: '[fejs] Mission 1 복습',
                 isCompleted: true
@@ -14,50 +15,100 @@
             {
                 text: '[fejs] Mission 2 복습',
                 isCompleted: false
-            },
+            }
+        ];
+        const knittingData = [
             {
                 text: '[kniiting] 뜨개구리 3세 배뜨기',
-                isCompleted: true
-            },
+                isCompleted: false
+            }
+        ];
+        const etcData = [
             {
                 text: '[github] readme.md 꾸미는 법 익히기',
                 isCompleted: false
             },
             {
                 text: '[discord] 음악재생봇 알아보기',
-                isCompleted: false
+                isCompleted: true
             }
         ];
         
 
-        function TodoList({ root, data }) {
-            this.state = data;
+        // component
+        function TodoList({ root, id, data }) {
+            // validation
+            if (!new.target) {
+                throw new Error('new 키워드를 사용하지 않았습니다.');
+            }
+            validateData(data);
 
+
+            // component
+            this.todoList = document.createElement('ul');
+            this.todoList.id = id;
+            root.appendChild(this.todoList);
+            
+            this.state = data;
             this.setState = (nextState) => {
                 this.state = nextState;
                 this.render();
             }
             this.render = () => {
-                root.innerHTML = `
-                <ul>
-                    ${this.state.map(({ text, isCompleted }) => { 
-                        return `<li>${ isCompleted ? `<s>${text}</s>` : text }</li>` 
-                    }).join('')}
-                </ul>`;
+                this.todoList.innerHTML = this.state.map((todo, i) => {
+                    const { text, isCompleted } = validateTodo(todo, i);
+                    return `<li>${ isCompleted ? `<s>${text}</s>` : text }</li>`
+                }).join('');
             }
-
             this.render();
+            
+
+            // inner methods
+            function validateData(data) {
+                if (data === null || data === undefined) {
+                    throw new Error(`data가 정의되지 않았습니다: ${data}`);
+                } else if (!Array.isArray(data)) {
+                    throw new Error(`data가 배열이 아닙니다: ${data}`);
+                }
+            }
+            function validateTodo(todo, i) {
+                const { text, isCompleted } = todo;
+                if (text === undefined || isCompleted === undefined) {
+                    throw new Error(`data[${i}] - todo 데이터 구조가 올바르지 않습니다: ${JSON.stringify(todo)}`);
+                }
+
+                if (typeof(text) !== 'string') {
+                    throw new Error(`data[${i}] - text가 string이 아닙니다: ${typeof(text)}`);
+                }
+                if (typeof(isCompleted) !== 'boolean') {
+                    throw new Error(`data[${i}] - isCompleted가 boolean이 아닙니다: ${typeof(isCompleted)}`);
+                }
+
+                return todo;
+            }
         }
 
         
-        const todoList = new TodoList({
+        // execution
+        const fejsTodos = new TodoList({
             root: document.getElementById('todo-list'), 
-            data
+            id: 'fejs-todos',
+            data: fejsData
+        });
+        const knittingTodos = new TodoList({
+            root: document.getElementById('todo-list'), 
+            id: 'knitting-todos',
+            data: knittingData
+        });
+        const etcTodos = new TodoList({
+            root: document.getElementById('todo-list'), 
+            id: 'etc-todos',
+            data: etcData
         });
 
         setTimeout(() => {
-            todoList.setState([
-                ...data,
+            fejsTodos.setState([
+                ...fejsData,
                 {
                     text: '[fejs] setState(nextData): nextData로 기존 data 대체 후 다시 렌더링',
                     isCompleted: true
