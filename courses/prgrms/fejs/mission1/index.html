@@ -8,31 +8,40 @@
     <script>
         const data = [
             {
-                text: '[fejs] Mission 1 복습'
+                text: '[fejs] Mission 1 복습',
+                isCompleted: true
             },
             {
-                text: '[fejs] Mission 2 복습'
+                text: '[fejs] Mission 2 복습',
+                isCompleted: false
             },
             {
-                text: '[kniiting] 뜨개구리 3세 배뜨기'
+                text: '[kniiting] 뜨개구리 3세 배뜨기',
+                isCompleted: true
             },
             {
-                text: '[github] readme.md 꾸미는 법 익히기'
+                text: '[github] readme.md 꾸미는 법 익히기',
+                isCompleted: false
             },
             {
-                text: '[discord] 음악재생봇 알아보기'
+                text: '[discord] 음악재생봇 알아보기',
+                isCompleted: false
             }
         ];
         
 
         function TodoList({ root, data }) {
             this.state = data;
-            
+
+            this.setState = (nextState) => {
+                this.state = nextState;
+                this.render();
+            }
             this.render = () => {
                 root.innerHTML = `
                 <ul>
-                    ${data.map((todo) => { 
-                        return `<li>${todo.text}</li>` 
+                    ${this.state.map(({ text, isCompleted }) => { 
+                        return `<li>${ isCompleted ? `<s>${text}</s>` : text }</li>` 
                     }).join('')}
                 </ul>`;
             }
@@ -45,6 +54,16 @@
             root: document.getElementById('todo-list'), 
             data
         });
+
+        setTimeout(() => {
+            todoList.setState([
+                ...data,
+                {
+                    text: '[fejs] setState(nextData): nextData로 기존 data 대체 후 다시 렌더링',
+                    isCompleted: true
+                }
+            ])
+        }, 1000);
     </script>
 </body>
 </html>
