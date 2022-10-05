@@ -1,4 +1,6 @@
 import express from 'express';
+import http from 'http';
+import WebSocket from 'ws';
 
 const app = express();
 
@@ -10,6 +12,9 @@ app.use('/public', express.static(__dirname + '/public'));
 app.get('/', (req, res) => res.render('home'));
 app.get('/*', (req, res) => res.redirect('/'));
 
-app.listen(3000, () => {
+const server = http.createServer(app);
+const wss = WebSocket.Server({ server });
+
+server.listen(3000, () => {
     console.log('Listening on http:3000');
 });
