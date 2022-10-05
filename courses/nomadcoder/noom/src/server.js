@@ -13,8 +13,26 @@ app.get('/', (req, res) => res.render('home'));
 app.get('/*', (req, res) => res.redirect('/'));
 
 const server = http.createServer(app);
-const wss = WebSocket.Server({ server });
-
 server.listen(3000, () => {
     console.log('Listening on http:3000');
+});
+
+const wss = new WebSocket.Server({ server });
+const sockets = [];
+
+wss.on('connection', (socket) => {
+  socket.nickname = 'Anon';
+  sockets.push(socket);
+  socket.on('message', (jsonStr) => {
+    const { type, payload } = JSON.parse(jsonStr);
+    switch (type) {
+      case 'nickname':
+        socket.nickname = payload;
+        break;
+      case 'message':
+        const message = `${socket.nickname}: ${payload}`;
+        sockets.forEach((s) => s.send(message));
+        break;
+    }
+  });
 });
