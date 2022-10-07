@@ -1,4 +1,4 @@
-function TodoInput({ root, onAddTodo }) {
+export default function TodoInput({ root, onAddTodo }) {
     const todoInput = document.createElement('form');
     root.appendChild(todoInput);
 

@@ -1,4 +1,4 @@
-function TodoList({ root, initialState, onToggleComplete, onRemoveComplete }) {
+export default function TodoList({ root, initialState, onToggleComplete, onRemoveComplete }) {
     // validation
     if (!new.target) {
         throw new Error('new 키워드를 사용하지 않았습니다.');

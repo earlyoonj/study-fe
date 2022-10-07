@@ -1,4 +1,4 @@
-function TodoCount({ root, initialState }) {
+export default function TodoCount({ root, initialState }) {
     const todoCount = document.createElement('span');
     root.appendChild(todoCount);
 
