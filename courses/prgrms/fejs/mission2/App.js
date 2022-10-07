@@ -37,4 +37,8 @@ function App({ root, initialState }) {
     const todoCount = new TodoCount({ root, 
         initialState: this.getCount()
     });
+
+    window.addEventListener('remove-all', () => {
+        this.setState([]);
+    });
 }

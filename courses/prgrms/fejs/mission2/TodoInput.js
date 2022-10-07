@@ -8,11 +8,17 @@ function TodoInput({ root, onAddTodo }) {
         onAddTodo(input.value);
         input.value = '';
     });
+    todoInput.addEventListener('click', (event) => {
+        if (event.target.className === 'remove-all') {
+            window.dispatchEvent(new CustomEvent('remove-all'));
+        }
+    });
 
     this.render = () => {
         todoInput.innerHTML = `
             <input type="text"></input>
-            <button>Add</button>
+            <button type="submit">Add</button>
+            <button class="remove-all" type="button">Remove All</button>
         `;
     }
     this.render();

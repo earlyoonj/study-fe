@@ -8,6 +8,15 @@ function TodoList({ root, initialState, onToggleComplete, onRemoveComplete }) {
 
     // component
     this.todoList = document.createElement('ul');
+    this.todoList.addEventListener('click', (event) => {
+        const todos = Array.from(this.todoList.children);
+        const idx = todos.indexOf(event.target.parentNode);
+        if (event.target.nodeName === 'SPAN') {
+            onToggleComplete(idx);
+        } else if (event.target.nodeName === 'BUTTON') {
+            onRemoveComplete(idx);
+        }
+    })
     root.appendChild(this.todoList);
     
     this.state = initialState;
@@ -27,15 +36,9 @@ function TodoList({ root, initialState, onToggleComplete, onRemoveComplete }) {
             if (isCompleted) {
                 li.style['text-decoration'] = 'line-through';
             }
-            span.addEventListener('click', (event) => {
-                onToggleComplete(i);
-            });
             
             const button = document.createElement('button');
             button.innerText = '🗑️';
-            button.addEventListener('click', () => {
-                onRemoveComplete(i);
-            });
 
             li.appendChild(span);
             li.appendChild(button)
