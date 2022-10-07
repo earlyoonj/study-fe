@@ -1,4 +1,4 @@
-function TodoList({ root, initialState }) {
+function TodoList({ root, initialState, onToggleComplete, onRemoveComplete }) {
     // validation
     if (!new.target) {
         throw new Error('new 키워드를 사용하지 않았습니다.');
@@ -28,16 +28,13 @@ function TodoList({ root, initialState }) {
                 li.style['text-decoration'] = 'line-through';
             }
             span.addEventListener('click', (event) => {
-                const currentCompleted = this.state[i].isCompleted;
-                this.state[i].isCompleted = !currentCompleted;
-                this.setState(this.state);
+                onToggleComplete(i);
             });
             
             const button = document.createElement('button');
             button.innerText = '🗑️';
             button.addEventListener('click', () => {
-                this.state.splice(i, 1);
-                this.setState(this.state);
+                onRemoveComplete(i);
             });
 
             li.appendChild(span);
