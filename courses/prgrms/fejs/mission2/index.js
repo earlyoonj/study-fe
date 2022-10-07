@@ -1,15 +1,13 @@
-const data = [
-    {
-        text: '[fejs] Mission 1 복습',
-        isCompleted: true
-    },
-    {
-        text: '[fejs] Mission 2 복습',
-        isCompleted: false
-    }
-];
-
-const todoList = new TodoList({
+new App({
     root: document.getElementById('app'), 
-    initialState: data
-});
+    initialState: [
+        {
+            text: '[fejs] Mission 1 복습',
+            isCompleted: true
+        },
+        {
+            text: '[fejs] Mission 2 복습',
+            isCompleted: false
+        }
+    ]}
+);
