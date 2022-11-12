@@ -10,16 +10,14 @@ export default function App(root) {
         searchResults: []
     }
 
-    const handleSearch = (keyword) => {
+    const handleSearch = async (keyword) => {
         try {
-            fetchJjalImages(keyword)
-                .then(data => {
-                    const histories = getSearchHistory(keyword);
-                    this.setState({
-                        histories,
-                        searchResults: data
-                    });
-                });
+            const data = await fetchJjalImages(keyword) 
+            const histories = getSearchHistory(keyword);
+            this.setState({
+                histories,
+                searchResults: data
+            });
         } catch (error) {
             alert(error.message);
         }
@@ -41,16 +39,14 @@ export default function App(root) {
         return histories
     }
 
-    const handleClickHistory = (keyword) => {
+    const handleClickHistory = async (keyword) => {
         try {
-            fetchJjalImages(keyword)
-                .then(data => {
-                    this.setState({
-                        keyword,
-                        histories: this.state.histories,
-                        searchResults: data
-                    });
-                });
+            const data = await fetchJjalImages(keyword);
+            this.setState({
+                keyword,
+                histories: this.state.histories,
+                searchResults: data
+            });
         } catch (error) {
             alert(e.message);
         }

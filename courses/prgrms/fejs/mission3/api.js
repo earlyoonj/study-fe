@@ -1,11 +1,13 @@
 const API_URL = 'https://jjalbot.com';
 
-export const request = (url) => {
-    return fetch(`${API_URL}${url}`)
-        .then((response) => response.json())
-        .catch((e) => {
-            console.log(e);
-        })
+export const request = async (url) => {
+    const response = await fetch(`${API_URL}${url}`);
+
+    if (!response.ok) {
+        throw new Error('API ERROR');
+    }
+    
+    return response.json();
 }
 
 export const fetchJjalImages = (keyword) => {
