@@ -1,3 +1,4 @@
+import SearchHistory from './SearchHistory.js';
 import SearchInput from './SearchInput.js';
 import SearchResult from './SearchResult.js';
 import { fetchJjalImages } from './api.js';
@@ -5,6 +6,7 @@ import { fetchJjalImages } from './api.js';
 export default function App(root) {
     this.state = {
         keyword: '',
+        histories: [],
         searchResults: []
     }
 
@@ -12,9 +14,10 @@ export default function App(root) {
         try {
             fetchJjalImages(keyword)
                 .then(data => {
+                    const histories = getSearchHistory(keyword);
                     this.setState({
-                        keyword: keyword,
-                        searchResults: data 
+                        histories,
+                        searchResults: data
                     });
                 });
         } catch (error) {
@@ -22,10 +25,48 @@ export default function App(root) {
         }
     }
 
+    const getSearchHistory = (keyword) => {
+        const histories = [...this.state.histories];
+
+        // 히스토리와 동일한 키워드가 있다면 삭제
+        const historyIdx = histories.findIndex(
+            (history) => history === keyword
+        );
+        if (historyIdx > -1) {
+            histories.splice(historyIdx, 1);
+        }
+
+        histories.push(keyword);
+
+        return histories
+    }
+
+    const handleClickHistory = (keyword) => {
+        try {
+            fetchJjalImages(keyword)
+                .then(data => {
+                    this.setState({
+                        keyword,
+                        histories: this.state.histories,
+                        searchResults: data
+                    });
+                });
+        } catch (error) {
+            alert(e.message);
+        }
+    }
+
+
     const searchInput = new SearchInput({ 
         root,
         initialState: this.state.keyword,
         onSearch: handleSearch
+    });
+
+    const searchHistory = new SearchHistory({
+        root,
+        initialState: this.state.histories,
+        onClickHistory: handleClickHistory
     });
 
     const searchResult = new SearchResult({ 
@@ -40,6 +81,7 @@ export default function App(root) {
 
     this.render = () => {
         searchInput.setState(this.state.keyword);
+        searchHistory.setState(this.state.histories);
         searchResult.setState(this.state.searchResults);
     }
 }
