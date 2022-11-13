@@ -1,15 +1,19 @@
-import storage from './localStorage.js'
+import { getTodos, addTodo, removeTodo, removeAllTodo, toggleTodo } from './api.js';
 import TodoList from './TodoList.js';
 import TodoInput from './TodoInput.js';
 import TodoCount from './TodoCount.js';
 
-export default function App(root) {
-    this.state = storage.getItem('todoList', []);
+export default function App(root, userId) {
+    const init = async () => {
+        const todos = await getTodos(userId);
+        this.setState(todos);
+    }
+    
+    this.state = [];
     this.setState = (nextState) => {
         this.state = nextState;
         todoList.setState(this.state);
         todoCount.setState(this.getCount());
-        storage.setItem('todoList', this.state);
     };
     this.getCount = () => {
         return {
@@ -19,25 +23,29 @@ export default function App(root) {
     }
 
     const todoList = new TodoList({ root, 
-        initialState: this.state,
+        initialState: [],
         onToggleComplete: (idx) => {
+            const todoId = this.state[idx]._id;
+            toggleTodo(userId, todoId);
+            
             const currentCompleted = this.state[idx].isCompleted;
             this.state[idx].isCompleted = !currentCompleted;
             this.setState(this.state);
         },
         onRemoveComplete: (idx) => {
+            const todoId = this.state[idx]._id;
+            removeTodo(userId, todoId);
+
             this.state.splice(idx, 1);
             this.setState(this.state);
         }
     });
     const todoInput = new TodoInput({ root,
-        onAddTodo: (text) => {
+        onAddTodo: async (content) => {
+            const nextState = await addTodo(userId, content);
             this.setState([
                 ...this.state,
-                {
-                    text,
-                    isCompleted: false
-                }
+                nextState
             ]);
         }
     });
@@ -47,5 +55,8 @@ export default function App(root) {
 
     window.addEventListener('remove-all', () => {
         this.setState([]);
+        removeAllTodo(userId);
     });
+
+    init();
 }
