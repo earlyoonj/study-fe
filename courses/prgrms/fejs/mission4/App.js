@@ -1,62 +1,105 @@
-import { getTodos, addTodo, removeTodo, removeAllTodo, toggleTodo } from './api.js';
+import {
+    getTodos,
+    addTodo,
+    removeTodo,
+    removeAllTodo,
+    toggleTodo,
+    getUsers,
+} from './api.js';
+import User from './User.js';
 import TodoList from './TodoList.js';
 import TodoInput from './TodoInput.js';
 import TodoCount from './TodoCount.js';
 
 export default function App(root, userId) {
-    const init = async () => {
-        const todos = await getTodos(userId);
-        this.setState(todos);
-    }
-    
-    this.state = [];
+    this.state = {
+        user: {
+            current: '',
+            all: [],
+        },
+        todos: [],
+    };
     this.setState = (nextState) => {
-        this.state = nextState;
-        todoList.setState(this.state);
+        this.setUserState(nextState.user);
+        this.setTodoState(nextState.todos);
+    };
+    this.setUserState = (nextUsers) => {
+        this.state.user = nextUsers;
+        user.setState(nextUsers);
+    };
+    this.setTodoState = (nextTodos) => {
+        this.state.todos = nextTodos;
+        todoList.setState(nextTodos);
         todoCount.setState(this.getCount());
     };
     this.getCount = () => {
+        const todos = this.state.todos;
         return {
-            totalCount: this.state.length,
-            completedCount: this.state.filter((todo) => todo.isCompleted).length
+            totalCount: todos.length,
+            completedCount: todos.filter((todo) => todo.isCompleted).length,
         };
-    }
+    };
 
-    const todoList = new TodoList({ root, 
+    const user = new User({
+        root,
+        initialState: this.state.users,
+        onClickUser: async (userId) => {
+            const todos = await getTodos(userId);
+            const nextState = {
+                user: {
+                    current: userId,
+                    all: this.state.user.all,
+                },
+                todos,
+            };
+            this.setState(nextState);
+        },
+    });
+    const todoList = new TodoList({
+        root,
         initialState: [],
         onToggleComplete: (idx) => {
-            const todoId = this.state[idx]._id;
-            toggleTodo(userId, todoId);
-            
-            const currentCompleted = this.state[idx].isCompleted;
-            this.state[idx].isCompleted = !currentCompleted;
-            this.setState(this.state);
+            const todos = this.state.todos;
+            const todoId = todos[idx]._id;
+            toggleTodo(this.state.user.current, todoId);
+
+            const currentCompleted = todos[idx].isCompleted;
+            todos[idx].isCompleted = !currentCompleted;
+            this.setTodoState(todos);
         },
         onRemoveComplete: (idx) => {
-            const todoId = this.state[idx]._id;
-            removeTodo(userId, todoId);
+            const todos = this.state.todos;
+            const todoId = todos[idx]._id;
+            removeTodo(this.state.user.current, todoId);
 
-            this.state.splice(idx, 1);
-            this.setState(this.state);
-        }
+            todos.splice(idx, 1);
+            this.setTodoState(todos);
+        },
     });
-    const todoInput = new TodoInput({ root,
+    const todoInput = new TodoInput({
+        root,
         onAddTodo: async (content) => {
-            const nextState = await addTodo(userId, content);
-            this.setState([
-                ...this.state,
-                nextState
-            ]);
-        }
+            const addedTodo = await addTodo(this.state.user.current, content);
+            this.setTodoState([...this.state.todos, addedTodo]);
+        },
     });
-    const todoCount = new TodoCount({ root, 
-        initialState: this.getCount()
-    });
+    const todoCount = new TodoCount({ root, initialState: this.getCount() });
 
     window.addEventListener('remove-all', () => {
-        this.setState([]);
-        removeAllTodo(userId);
+        this.setTodoState([]);
+        removeAllTodo(this.state.user.current);
     });
 
+    const init = async () => {
+        const users = await getUsers();
+        const todos = await getTodos(userId);
+        this.setState({
+            user: {
+                current: userId,
+                all: users,
+            },
+            todos,
+        });
+    };
     init();
 }

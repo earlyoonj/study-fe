@@ -10,6 +10,10 @@ export const request = async (url, options) => {
     return response.json();
 };
 
+export const getUsers = () => {
+    return request('/users');
+};
+
 export const getTodos = (userId) => {
     return request(`/${userId}`);
 };
