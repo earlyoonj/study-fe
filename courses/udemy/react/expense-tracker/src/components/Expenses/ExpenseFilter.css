@@ -1,0 +1,19 @@
+.expenses-filter {
+    color: white;
+}
+
+.expenses-filter__control {
+    width: 18%;
+}
+
+.expenses-filter label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.expenses-filter select {
+    font-size: 2rem;
+    font-weight: bold;
+    border-width: 0px;
+    border-radius: 6px;
+}
