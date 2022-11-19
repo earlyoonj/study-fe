@@ -1,0 +1,9 @@
+.users {
+    width: 20rem;
+    padding: 2rem;
+}
+
+.users ul {
+    margin: 0;
+    padding: 0;
+}

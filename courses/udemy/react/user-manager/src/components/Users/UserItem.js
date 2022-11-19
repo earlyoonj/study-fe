@@ -4,7 +4,7 @@ function UserItem(props) {
     const item = props.item;
 
     return (
-        <li>
+        <li className={classes.item}>
             <span>{item.name}</span>
             <span> ({item.age} years old)</span>
         </li>

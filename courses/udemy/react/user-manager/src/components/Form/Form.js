@@ -2,6 +2,9 @@ import classes from './Form.module.css';
 
 import { useState } from 'react';
 
+import Card from '../UI/Card';
+import Button from '../UI/Button';
+
 function Form(props) {
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
@@ -28,31 +31,33 @@ function Form(props) {
     };
 
     return (
-        <form onSubmit={submitHandler}>
-            <div className="controls">
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input
-                        id="username"
-                        type="text"
-                        value={name}
-                        onChange={nameHandler}
-                    />
+        <Card className={classes.form}>
+            <form onSubmit={submitHandler}>
+                <div className={classes.controls}>
+                    <div>
+                        <label htmlFor="username">Username</label>
+                        <input
+                            id="username"
+                            type="text"
+                            value={name}
+                            onChange={nameHandler}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="age">Age (Years)</label>
+                        <input
+                            id="age"
+                            type="number"
+                            value={age}
+                            onChange={ageHandler}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="age">Age (Years)</label>
-                    <input
-                        id="age"
-                        type="number"
-                        value={age}
-                        onChange={ageHandler}
-                    />
+                <div className={classes.actions}>
+                    <Button type="submit">Add user</Button>
                 </div>
-            </div>
-            <div className="actions">
-                <button type="submit">Add user</button>
-            </div>
-        </form>
+            </form>
+        </Card>
     );
 }
 

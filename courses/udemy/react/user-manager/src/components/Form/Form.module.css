@@ -1,0 +1,25 @@
+.form {
+    width: 20rem;
+    padding: 2rem;
+}
+
+.controls label {
+    display: block;
+    font-weight: bold;
+}
+
+.controls input {
+    width: 80%;
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+    border-width: 0;
+    background-color: #f5f5f5;
+}
+
+.controls > div {
+    margin-bottom: 1rem;
+}
+
+.actions {
+    margin-top: 2rem;
+}

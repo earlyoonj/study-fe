@@ -1,14 +1,17 @@
 import classes from './Users.module.css';
 
+import Card from '../UI/Card';
 import UserItem from './UserItem';
 
 function Users(props) {
     return (
-        <ul>
-            {props.data.map((item) => {
-                return <UserItem key={item.key} item={item} />;
-            })}
-        </ul>
+        <Card className={classes.users}>
+            <ul>
+                {props.data.map((item) => {
+                    return <UserItem key={item.key} item={item} />;
+                })}
+            </ul>
+        </Card>
     );
 }
 
