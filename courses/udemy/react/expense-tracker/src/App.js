@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+import NewExpense from './components/NewExpense/NewExpense';
 import ExpenseList from './components/Expenses/ExpenseList';
 
 const INITIAL_DATA = [
@@ -28,9 +31,18 @@ const INITIAL_DATA = [
 ];
 
 function App() {
+    const [expenses, setExpenses] = useState(INITIAL_DATA);
+
+    const addExpenseHandler = (newExpense) => {
+        setExpenses((prevExpense) => {
+            return [newExpense, ...prevExpense];
+        });
+    };
+
     return (
         <div>
-            <ExpenseList items={INITIAL_DATA} />
+            <NewExpense onAddExpense={addExpenseHandler} />
+            <ExpenseList items={expenses} />
         </div>
     );
 }
