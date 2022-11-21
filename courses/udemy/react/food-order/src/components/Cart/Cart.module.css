@@ -1,0 +1,40 @@
+.cart form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3rem;
+}
+
+.cart h3 {
+    text-align: center;
+}
+
+.total {
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total span {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.total .price {
+    font-size: 2rem;
+}
+
+.controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.controls button {
+    width: 7rem;
+    height: 3rem;
+    margin-left: 0.5rem;
+    font-size: 1.1rem;
+    border-radius: 0.6rem;
+}

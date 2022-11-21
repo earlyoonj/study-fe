@@ -1,0 +1,24 @@
+.cart-item {
+    height: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ececec;
+}
+
+.cart-item h5 {
+    font-size: 1.3rem;
+}
+
+.cart-item span {
+    color: #ff6b2c;
+}
+
+.amount {
+    width: 10rem;
+    height: 2.5rem;
+}
+
+.amount input {
+    border-radius: 0.5rem;
+}

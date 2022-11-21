@@ -1,16 +1,32 @@
+import { Fragment, useState } from 'react';
+
 import classes from './CartButton.module.css';
 
-import CartIcon from './CartIcon';
+import Cart from '../Cart/Cart';
+import CartIcon from '../Cart/CartIcon';
 
 function CartButton() {
+    const [isShowCart, setIsShowCart] = useState(false);
+
+    const showCartHandler = () => {
+        setIsShowCart(true);
+    }
+
+    const hideCartHandler = () => {
+        setIsShowCart(false);
+    }
+
     return (
-        <button className={classes['cart-btn']}>
-            <CartIcon />
-            <h3>Your Cart</h3>
-            <span className={classes.badge}>
-                <span>5</span>
-            </span>
-        </button>
+        <Fragment>
+            {isShowCart && <Cart onClose={hideCartHandler}/>}
+            <button className={classes['cart-btn']} onClick={showCartHandler}>
+                <CartIcon />
+                <h3>Your Cart</h3>
+                <span className={classes.badge}>
+                    <span>5</span>
+                </span>
+            </button>
+        </Fragment>
     );
 }
 
