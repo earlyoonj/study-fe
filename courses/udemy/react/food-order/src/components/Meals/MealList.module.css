@@ -1,0 +1,5 @@
+.meal-list {
+    width: 40%;
+    overflow: scroll;
+    border-left: 1px solid #ececec;
+}

@@ -1,0 +1,18 @@
+.button {
+    font-weight: 600;
+}
+
+.primary {
+    color: #fff;
+    background-color: #ff6b2c;
+}
+
+.primary:hover {
+    background-color: #ed6126;
+}
+
+.secondary {
+    color: #ff6b2c;
+    background-color: #fff;
+    border: 1px solid #ff6b2c;
+}

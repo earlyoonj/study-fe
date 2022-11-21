@@ -1,0 +1,31 @@
+.cart-btn {
+    position: relative;
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+.cart-btn svg {
+    width: 1.5rem;
+}
+
+.cart-btn h3 {
+    font-size: 1.2rem;
+}
+
+.badge {
+    position: absolute;
+    top: -0.2rem;
+    right: -0.8rem;
+    width: 1rem;
+    height: 1rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    background-color: #ff6b2c;
+    border-radius: 50%;
+}

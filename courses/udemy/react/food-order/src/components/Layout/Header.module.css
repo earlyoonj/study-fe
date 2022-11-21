@@ -1,0 +1,16 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 1.5rem;
+    width: 980px;
+    margin: 0 auto;
+    margin-top: 10vh;
+    margin-bottom: 3vh;
+}
+
+.header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 100%;
+}

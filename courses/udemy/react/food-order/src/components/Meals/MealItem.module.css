@@ -1,0 +1,44 @@
+.meal-item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 2rem;
+    border-bottom: 1px solid #ececec;
+}
+
+.info {
+    width: 12rem;
+}
+
+.name {
+    font-size: 1.3rem;
+}
+
+.description {
+    font-weight: 200;
+}
+
+.price {
+    display: block;
+    margin-top: 0.6rem;
+    color: #ff6b2c;
+    font-weight: 600;
+}
+
+.amount {
+    width: 8rem;
+    gap: 0.4rem;
+}
+
+.amount input {
+    height: 2.1rem;
+    border-radius: 0.4rem;
+}
+
+.add-btn {
+    margin-top: 0.4rem;
+    width: 100%;
+    height: 2.1rem;
+    font-size: 0.9rem;
+    border-radius: 0.4rem;
+}
