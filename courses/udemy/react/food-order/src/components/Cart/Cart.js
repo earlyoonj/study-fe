@@ -1,50 +1,44 @@
+import { useContext } from 'react';
+
 import classes from './Cart.module.css';
 
+import CartContext from '../../store/cart-context';
+import CartList from './CartList';
 import Modal from '../UI/Modal';
 import Button from '../UI/Button';
-import CartList from './CartList';
-import CartIcon from './CartIcon';
-
-const DUMMY_CART_LIST = [
-    {
-        id: 'm1',
-        name: 'Sushi',
-        description: 'Finest fish and veggies',
-        price: 22.99,
-    },
-    {
-        id: 'm3',
-        name: 'Barbecue Burger',
-        description: 'American, raw, meaty',
-        price: 12.99,
-    },
-];
 
 function Cart(props) {
+    const cartCtx = useContext(CartContext);
+
     const orderHandler = (event) => {
         event.preventDefault();
-        console.log('Order Complete!');
+
+        alert('Order Complete!');
+
+        cartCtx.removeAll();
         props.onClose();
     };
 
     return (
         <Modal className={classes.cart} onClose={props.onClose}>
-            <form>
+            <form onSubmit={orderHandler}>
                 <h3>Your Cart</h3>
-                <CartList list={DUMMY_CART_LIST} />
+                <CartList list={cartCtx.items} />
                 <div className={classes.total}>
                     <span>Total Amount</span>
-                    <span className={classes.price}>{`$ ${80.59}`}</span>
+                    <span
+                        className={classes.price}
+                    >{`$ ${cartCtx.totalPrice.toFixed(2)}`}</span>
                 </div>
                 <div className={classes.controls}>
-                    <Button variant="secondary" onClick={props.onClose}>
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        onClick={props.onClose}
+                    >
                         Close
                     </Button>
-                    <Button
-                        type="submit"
-                        variant="primary"
-                        onClick={orderHandler}
-                    >
+                    <Button type="submit" variant="primary">
                         Order
                     </Button>
                 </div>
